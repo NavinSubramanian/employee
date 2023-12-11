@@ -1,0 +1,179 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'forms.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="form_wrapper">
+        <div class="form_left">
+            <div class="text">
+                <h1>Employee Form</h1>
+                <h4>Proceed through steps and submit properly.</h4>
+                <hr>
+            </div>
+            <div class="sections">
+                <div class="step active">
+                    <div class="circle"></div>
+                    <h3>Personal details</h3>
+                </div>
+                <div class="step">
+                    <div class="circle"></div>
+                    <h3>Work details</h3>
+                </div>
+                <div class="step">
+                    <div class="circle"></div>
+                    <h3>Past Experiance</h3>
+                </div>
+            </div>
+            <div class="bigcircle"></div>
+        </div>
+        <div class="form_right">
+            <form action="checked" class="form" method="POST">
+                {% csrf_token %}
+                <div class="form_1 form_step active">
+                    <h2>Personal Details</h2>
+                    <hr class="main_sep">
+                    <label for="name">Full name<span class="ast">*</span></label><br>
+                    <input type="text" id="first" name="first" placeholder="First Name" required style="margin-right: 100px;">
+                    <input type="text" id="last" name="last" placeholder="Last Name"><br>
+                    <label for="datePicker">Date of Birth<span class="ast">*</span></label><br>
+                    <input type="text" id="datePicker"  name="date" placeholder="Select your dob" required><br>
+                    <label for="address">Address<span class="ast">*</span></label><br>
+                    <textarea name="address" id="address" cols="76" rows="10" required></textarea><br>
+                </div>
+                <div class="form_2 form_step">
+                    <h2>Work Details</h2>
+                    <hr class="main_sep">
+                    <label for="exp">Experiance at current company<span class="ast">*</span></label><br>
+                    <input type="text" id="exp" name="exp" required><span style="font-size: small;font-weight: 300;">years</span><br>
+                    <label for="dept" >Department<span class="ast">*</span></label><br>
+                    <input type="text" id="dept" name="dept" style="margin-right: 30%;" required><br>
+                    <label for="empid" style="margin-right: 10px;">Employee ID<span class="ast">*</span></label>
+                    <input type="text" id="empid" name="empid" required style="width: 50px;"><br>
+                    <label for="design">Designation<span class="ast">*</span></label><br>
+                    <input type="text" id="design" name="design" required><br>
+                    <label for="salary">Salary<span class="ast">*</span></label><br>
+                    <input type="text" id="salary" name="salary" required><span style="font-size: small;font-weight: 300;">LPA</span><br>
+                </div>
+                <div class="form_3 form_step">
+                    <h2>Past Experiance</h2>
+                    <hr class="main_sep">
+                    <label for="checks">Have past work Experiance?</label>
+                    <input type="checkbox" id="checks" name="checks" onclick="validate()">
+                    <div class="past_exp unchecked">
+                        <label for="datePicker2">Previous company join date : </label>
+                        <input type="text" id="datePicker2"  name='date2' placeholder="Select date" required><br>
+                        <label for="datePicker3">Previous company leave date : </label>
+                        <input type="text" id="datePicker3"  name='date3' placeholder="Select date" required><br>
+                    </div>
+                </div>
+                <div class="btns">
+                    <h4 class="text_btn"><span class="ast">*</span> Means mandatory</h4>
+                    <button type="button" class="prev_btn invis">Back</button>
+                    <button type="button" class="next_btn">Next</button>
+                    <button type="submit" class="sub_btn invis">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const datePickerInput = document.getElementById('datePicker');
+        const datePickerInput2 = document.getElementById('datePicker2');
+        const datePickerInput3 = document.getElementById('datePicker3');
+
+
+        const datePicker = flatpickr(datePickerInput, {
+            mode: 'single',
+            dateFormat: 'd-m-Y',
+            minDate: 'today',
+        });
+        const datePicker2 = flatpickr(datePickerInput2, {
+            mode: 'single',
+            dateFormat: 'd-m-Y',
+            minDate: 'today',
+        });
+        const datePicker3 = flatpickr(datePickerInput3, {
+            mode: 'single',
+            dateFormat: 'd-m-Y',
+            minDate: 'today',
+        });
+
+        const next = document.querySelector('.next_btn')
+        const prev = document.querySelector('.prev_btn')
+        const submit = document.querySelector('.sub_btn')
+        const textt = document.querySelector('.text_btn')
+        const steps = document.querySelectorAll('.step')
+        const formsteps = document.querySelectorAll('.form_step')
+        let active = 1
+
+        next.addEventListener('click', () =>{
+            active++
+            if(active>3){
+                active=3
+            }
+            update()
+        })
+        prev.addEventListener('click', () =>{
+            active--
+            if(active<1){
+                active=1
+            }
+            update()
+        })
+
+        const update = () => {
+            steps.forEach((steps, i) => {
+                if (i==active-1) {
+                    steps.classList.add('active')
+                    formsteps[i].classList.add('active')
+                }else{
+                    steps.classList.remove('active')
+                    formsteps[i].classList.remove('active')
+                }
+            });
+            if(active==1){
+                prev.classList.add('invis')
+                textt.classList.remove('invis')
+            }
+            else if(active==3){
+                next.classList.add('invis')
+                submit.classList.remove('invis')
+            }else{
+                textt.classList.add('invis')
+                submit.classList.add('invis')
+                next.classList.remove('invis')
+                prev.classList.remove('invis')
+            }
+        }
+
+        const checkBox = document.getElementById('checks')
+        const exp = document.querySelector('.past_exp')
+
+        const validate = () => {
+            if(checkBox.checked){
+                exp.classList.remove('unchecked')
+            }else{
+                exp.classList.add('unchecked')
+            }
+        }
+ 
+    </script>
+</body>
+
+</html>
