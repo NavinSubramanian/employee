@@ -1,5 +1,6 @@
 from django.shortcuts import render,HttpResponse,redirect
 from .models import *
+from django.contrib import messages
 
 def home(request):
     return render(request, 'forms.html')
@@ -59,6 +60,6 @@ def check(request):
                 prevjoin = prevj, 
                 prevleave = prevl,
             )
-    
-    
+        
+    messages.success(request,'Added Successfully!')
     return redirect('/view')

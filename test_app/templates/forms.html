@@ -19,28 +19,13 @@
 </head>
 
 <body>
-    <div class="form_wrapper">
+    <div class="form_wrapper" style="margin-bottom: 50px;">
         <div class="form_left">
             <div class="text">
                 <h1>Employee Form</h1>
                 <h4>Proceed through steps and submit properly.</h4>
                 <hr>
             </div>
-            <div class="sections">
-                <div class="step active">
-                    <div class="circle"></div>
-                    <h3>Personal details</h3>
-                </div>
-                <div class="step">
-                    <div class="circle"></div>
-                    <h3>Work details</h3>
-                </div>
-                <div class="step">
-                    <div class="circle"></div>
-                    <h3>Past Experiance</h3>
-                </div>
-            </div>
-            <div class="bigcircle"></div>
         </div>
         <div class="form_right">
             <form action="checked" class="form" method="POST">
@@ -92,30 +77,28 @@
         </div>
     </div>
     <script>
+
+
         const datePickerInput = document.getElementById('datePicker');
         const datePickerInput2 = document.getElementById('datePicker2');
         const datePickerInput3 = document.getElementById('datePicker3');
         const datePicker = flatpickr(datePickerInput, {
             mode: 'single',
             dateFormat: 'd-m-Y',
-            minDate: 'today',
         });
         const datePicker2 = flatpickr(datePickerInput2, {
             mode: 'single',
             dateFormat: 'd-m-Y',
-            minDate: 'today',
         });
         const datePicker3 = flatpickr(datePickerInput3, {
             mode: 'single',
             dateFormat: 'd-m-Y',
-            minDate: 'today',
         });
 
         const next = document.querySelector('.next_btn')
         const prev = document.querySelector('.prev_btn')
         const submit = document.querySelector('.sub_btn')
         const textt = document.querySelector('.text_btn')
-        const steps = document.querySelectorAll('.step')
         const formsteps = document.querySelectorAll('.form_step')
         let active = 1
 
@@ -135,13 +118,11 @@
         })
 
         const update = () => {
-            steps.forEach((steps, i) => {
+            formsteps.forEach((steps, i) => {
                 if (i==active-1) {
                     steps.classList.add('active')
-                    formsteps[i].classList.add('active')
                 }else{
                     steps.classList.remove('active')
-                    formsteps[i].classList.remove('active')
                 }
             });
             if(active==1){
