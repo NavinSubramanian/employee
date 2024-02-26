@@ -2,7 +2,7 @@ from django.shortcuts import render,HttpResponse,redirect
 from .models import *
 from django.contrib import messages
 from django.utils.dateparse import parse_date
-from datetime import date
+from datetime import date,datetime
 
 def home(request):
     return render(request, 'forms.html')
@@ -27,9 +27,6 @@ def check(request):
         salaryl = request.POST.get('salary')
 
         checksl = request.POST.get('checks')
-        dob_date = parse_date(dobl)
-        today = date.today()
-        age = today.year - dob_date.year - ((today.month, today.day) < (dob_date.month, dob_date.day))
         if(checksl == None):
             Employee_detail.objects.create(
                 name = namel,
