@@ -1,15 +1,13 @@
-FROM python:3.10
+FROM python:3
 
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED 1
 
 WORKDIR /code
 
-COPY requirements.txt .
+ADD . /code
+
+COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install -r requirements.txt
 
-COPY . .
-
-EXPOSE 8000
-
-CMD ["python","manage.py","runserver"]
+COPY . /code

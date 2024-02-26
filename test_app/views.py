@@ -27,6 +27,29 @@ def check(request):
         salaryl = request.POST.get('salary')
 
         checksl = request.POST.get('checks')
+        dob = datetime.strptime(dobl, '%d-%m-%Y')
+        current_date = datetime.now()
+        age = current_date.year - dob.year - ((current_date.month, current_date.day) < (dob.month, dob.day))
+
+        # Conditions to check
+
+        print(namel," ",dobl," ",addressl," ",expl," ",age," ",deptl," ",salaryl," ",designl," ",empidl)
+
+        if int(expl)<=0:
+            messages.success(request,"Experiance cannot be zero-0")
+            return redirect('/home')
+        if len(salaryl) >= 9:
+            messages.success(request,"Salary is too high")
+            return redirect('/home')
+        if int(age) < 18:
+            messages.success(request,"Age is too low")
+            return redirect('/home')
+        if int(expl) > int(age):
+            messages.success(request,"Experiance doesn't match the age")
+            return redirect('/home')
+        
+        print("ok done")
+
         if(checksl == None):
             Employee_detail.objects.create(
                 name = namel,
@@ -46,6 +69,14 @@ def check(request):
         else:
             prevl = request.POST.get('date3')
             prevj = request.POST.get('date2')
+
+            prevl1 = datetime.strptime(prevl, '%d-%m-%Y')
+            prevj1 = datetime.strptime(prevj, '%d-%m-%Y')
+
+            if(prevj1.year > prevl1.year):
+                messages.success(request,"Previous Experiance is wrong")
+                return redirect('/home')
+
             Employee_detail.objects.create(
                 name = namel,
                 dob = dobl,

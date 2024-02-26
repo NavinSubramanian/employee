@@ -27,8 +27,15 @@
                 <hr>
             </div>
         </div>
+        {% if messages %}
+            {% for m in messages %}
+            <div class="alert alert-success" role="alert" id="msg" style="background-color: rgb(198, 3, 3);padding:10px 0;color:white;text-align:center;width:100%">
+                {{m}}
+            </div>
+            {% endfor %}
+        {% endif %}
         <div class="form_right">
-            <form action="checked" class="form" method="POST">
+            <form action="/check" class="form" method="post">
                 {% csrf_token %}
                 <div class="form_1 form_step active">
                     <h2>Personal Details</h2>
@@ -78,6 +85,13 @@
     </div>
     <script>
 
+        setTimeout(()=>{
+            const msg = document.getElementById('msg')
+
+            if(msg.length > 0){
+                msg.remove()
+            }
+        },2000)
 
         const datePickerInput = document.getElementById('datePicker');
         const datePickerInput2 = document.getElementById('datePicker2');
