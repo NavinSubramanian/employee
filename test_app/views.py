@@ -73,25 +73,26 @@ def check(request):
             prevl1 = datetime.strptime(prevl, '%d-%m-%Y')
             prevj1 = datetime.strptime(prevj, '%d-%m-%Y')
 
-            if(prevj1.year > prevl1.year):
+            asjdn = int(prevj1.year) >= int(prevl1.year)
+            print(asjdn)
+            if (asjdn):
+                print("OK")
                 messages.success(request,"Previous Experiance is wrong")
                 return redirect('/home')
-
-            Employee_detail.objects.create(
-                name = namel,
-                dob = dobl,
-                address = addressl,
-
-                designation = designl,
-                empnumber = empidl,
-                salary = salaryl,
-                experiance = expl,
-                department = deptl,
-
-                pastexp = checksl,
-                prevjoin = prevj, 
-                prevleave = prevl,
-            )
+            else:
+                Employee_detail.objects.create(
+                    name = namel,
+                    dob = dobl,
+                    address = addressl,
+                    designation = designl,
+                    empnumber = empidl,
+                    salary = salaryl,
+                    experiance = expl,
+                    department = deptl,
+                    pastexp = True,
+                    prevjoin = prevj, 
+                    prevleave = prevl,
+                )
         
     messages.success(request,'Added Successfully!')
     return redirect('/view')
